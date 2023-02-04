@@ -1,0 +1,160 @@
+unit main_MKS_wifi_upload;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.CheckLst, Vcl.Mask, Vcl.ExtCtrls, Vcl.ButtonGroup;
+
+type
+  TForm3 = class(TForm)
+    Button1: TButton;
+    Label1: TLabel;
+    RadioGroup1: TRadioGroup;
+    OpenDialog1: TOpenDialog;
+    Edit1: TEdit;
+    Button2: TButton;
+    Label4: TLabel;
+    IP_MKS: TEdit;
+    Label5: TLabel;
+    Panel1: TPanel;
+    Panel2: TPanel;
+    Panel3: TPanel;
+    Memo1: TMemo;
+    procedure Button1Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+    procedure RadioGroup1Click(Sender: TObject);
+    procedure IP_MKSChange(Sender: TObject);
+  private
+    PythonApp: string;
+    FProgramName, FIniName, chiaveRegistro: string;
+  public
+    { Public declarations }
+  end;
+
+var
+  Form3: TForm3;
+
+implementation
+
+{$R *.dfm}
+
+uses ShellApi, inifiles;
+
+procedure TForm3.Button1Click(Sender: TObject);
+var
+  argument: string;
+begin
+  // esempio: MKS_WIFI_PS_upload.exe 192.168.1.15 never "C:\SynologyDrive\archivio GCode\per stampante CARMA V3\stilografica\xxxx.gcode"
+  // MKS_WIFI_PS_upload.exe 192.168.1.15 ask "C:\SynologyDrive\archivio GCode\per stampante CARMA V3\affilatura\accessori.gcode"
+
+  if FileExists(Edit1.Text) then
+  begin
+    Label4.Caption := 'found ' + Edit1.Text;
+    Label4.Color := clGreen;
+  end
+  else
+  begin
+    Label4.Caption := 'file not found : ->' + Edit1.Text;
+    Label4.Color := clRed;
+    exit;
+  end;
+
+  argument := IP_MKS.Text;
+
+  argument := StringReplace(argument, ' ', '', [rfReplaceAll]) + '  ';
+  case RadioGroup1.ItemIndex of
+    0:
+      argument := argument + ' never ';
+    1:
+      argument := argument + ' ask ';
+    2:
+      argument := argument + ' always ';
+  end;
+  argument := argument + '"' + Edit1.Text + '"';
+  Memo1.Lines.Add('uploaded : -> ' + argument);
+  ShellExecute(Handle, 'open', PChar('"' + PythonApp + '"'), PChar(argument), nil, SW_SHOW);
+end;
+
+procedure TForm3.Button2Click(Sender: TObject);
+var
+  Ini: TIniFile;
+begin
+  OpenDialog1.InitialDir := GetCurrentDir;
+  OpenDialog1.Options := [ofFileMustExist]; // Only allow existing files to be selected
+  OpenDialog1.Filter := 'Gcode files|*.gcode|Gcode files|*.gcode'; // Allow only .dpr and .pas files to be selected
+  OpenDialog1.FilterIndex := 2; // Select pascal files as the starting filter type
+  if OpenDialog1.Execute // Display the open file dialog
+  then
+  begin
+    // ShowMessage('File : ' + OpenDialog1.FileName)
+    Edit1.Text := OpenDialog1.FileName;
+    Ini := TIniFile.Create(FIniName);
+    try
+      Ini.WriteString('start', 'lastFile', Edit1.Text);
+    finally
+      Ini.Free;
+    end;
+  end
+  else
+    ShowMessage('Open file was cancelled');
+end;
+
+procedure TForm3.FormCreate(Sender: TObject);
+var
+  Ini: TIniFile;
+begin
+  Memo1.Clear;
+  PythonApp := ExtractFileDir(ParamStr(0)) + '\PS_uploader\MKS_WIFI_PS_upload.exe';
+  if FileExists(PythonApp) then
+  begin
+    Memo1.Lines.Add('Uploader  in : ' + PythonApp);
+  end
+  else
+  begin
+    begin
+      Memo1.Lines.Add('---ERROR-- can''t find the Uploader in : ' + PythonApp);
+      Memo1.Lines.Add('ABORT APP');
+      exit;
+    end;
+  end;
+  FProgramName := 'MKSwifiUPLOAD';
+  FIniName := ExtractFilePath(Application.ExeName) + FProgramName + '.ini';
+  chiaveRegistro := 'SOFTWARE\CMG\' + FProgramName;
+
+  Ini := TIniFile.Create(FIniName);
+  try
+    RadioGroup1.ItemIndex := Ini.ReadInteger('start', 'doAfter', 1);
+    IP_MKS.Text := Ini.ReadString('start', 'IP', '191.168.1.15');
+    Edit1.Text := Ini.ReadString('start', 'lastFile', ExtractFileDir(ParamStr(0)) + '\noname.gcode');
+  finally
+    Ini.Free;
+  end;
+end;
+
+procedure TForm3.IP_MKSChange(Sender: TObject);
+var
+  Ini: TIniFile;
+begin
+  Ini := TIniFile.Create(FIniName);
+  try
+    Ini.WriteString('start', 'IP', IP_MKS.Text);
+  finally
+    Ini.Free;
+  end;
+end;
+
+procedure TForm3.RadioGroup1Click(Sender: TObject);
+var
+  Ini: TIniFile;
+begin
+  Ini := TIniFile.Create(FIniName);
+  try
+    Ini.WriteInteger('start', 'doAfter', RadioGroup1.ItemIndex);
+  finally
+    Ini.Free;
+  end;
+end;
+
+end.

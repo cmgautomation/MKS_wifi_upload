@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2019/05/25 15:33:22.000.613,=C:\Users\Carlo\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2021/12/30 11:57:50.000.492,=C:\Users\Carlo\Documents\Embarcadero\Studio\Projects\Unit3.pas</Transaction>
+    <Transaction>2021/12/30 12:00:26.000.053,=C:\Users\Carlo\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2022/06/15 18:04:07.000.319,=C:\Users\Carlo\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2023/02/04 15:14:14.000.122,=C:\Users\Carlo\Documents\Embarcadero\Studio\Projects\Unit3.pas</Transaction>
+    <Transaction>2023/02/04 15:16:22.000.996,C:\SynologyDrive\GitHubRepo\MKS_wifi_upload\main_MKS_wifi_upload.dfm=C:\Users\Carlo\Documents\Embarcadero\Studio\Projects\Unit3.dfm</Transaction>
+    <Transaction>2023/02/04 15:16:22.000.996,C:\SynologyDrive\GitHubRepo\MKS_wifi_upload\main_MKS_wifi_upload.pas=C:\Users\Carlo\Documents\Embarcadero\Studio\Projects\Unit3.pas</Transaction>
+    <Transaction>2023/02/04 15:17:22.000.387,C:\SynologyDrive\GitHubRepo\MKS_wifi_upload\MKSwifiUpload.dproj=C:\Users\Carlo\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+  </Transactions>
+</BorlandProject>

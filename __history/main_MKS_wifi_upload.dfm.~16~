@@ -1,0 +1,101 @@
+object Form3: TForm3
+  Left = 0
+  Top = 0
+  Caption = 'Upload File On MKS nano'
+  ClientHeight = 350
+  ClientWidth = 785
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  TextHeight = 14
+  object Label1: TLabel
+    Left = 482
+    Top = 19
+    Width = 60
+    Height = 14
+    Caption = 'IP MKS nano'
+  end
+  object Label2: TLabel
+    Left = 0
+    Top = 336
+    Width = 785
+    Height = 14
+    Align = alBottom
+    Caption = 'Label2'
+    ExplicitLeft = 32
+    ExplicitTop = 320
+    ExplicitWidth = 32
+  end
+  object Label3: TLabel
+    Left = 8
+    Top = 288
+    Width = 32
+    Height = 14
+    Caption = 'Label3'
+  end
+  object Label4: TLabel
+    Left = 96
+    Top = 200
+    Width = 32
+    Height = 14
+    Caption = 'Label4'
+  end
+  object Button1: TButton
+    Left = 0
+    Top = 196
+    Width = 75
+    Height = 25
+    Caption = 'Upload'
+    TabOrder = 0
+    OnClick = Button1Click
+  end
+  object RadioGroup1: TRadioGroup
+    Left = 482
+    Top = 44
+    Width = 199
+    Height = 85
+    Caption = 'What I'#39'll do after loading'
+    ItemIndex = 1
+    Items.Strings = (
+      'do nothing'
+      'ask if run'
+      'run immediatly')
+    TabOrder = 1
+    OnClick = RadioGroup1Click
+  end
+  object Edit1: TEdit
+    Left = 81
+    Top = 168
+    Width = 696
+    Height = 22
+    TabOrder = 2
+    Text = 'Edit1'
+  end
+  object Button2: TButton
+    Left = 0
+    Top = 167
+    Width = 75
+    Height = 25
+    Caption = 'browse'
+    TabOrder = 3
+    OnClick = Button2Click
+  end
+  object Edit2: TEdit
+    Left = 560
+    Top = 16
+    Width = 121
+    Height = 22
+    TabOrder = 4
+    Text = '192.168.1.15'
+  end
+  object OpenDialog1: TOpenDialog
+    Left = 544
+    Top = 208
+  end
+end
